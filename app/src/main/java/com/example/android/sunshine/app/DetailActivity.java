@@ -16,21 +16,25 @@
 
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-public class DetailActivity extends ActionBarActivity {
-
+public class DetailActivity extends AppCompatActivity{
+    private TextView mTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -72,8 +76,15 @@ public class DetailActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            Intent intent = getActivity().getIntent();
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+            if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+                String message = intent.getStringExtra(intent.EXTRA_TEXT);
+                ((TextView) rootView.findViewById(R.id.myForecast)).setText(message);
+            }
+
             return rootView;
         }
     }
